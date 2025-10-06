@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Anniversary Story</title>
+    
+    <style>
+        /* New Color Palette based on image */
+        :root {
+            --light-grey-bg: #f8f8f8; /* Light background for header */
+            --dark-grey-text: #333333;
+            --soft-pink: #d9a0b1; /* A muted pink from the image */
+            --mid-grey-text: #666666; /* For 'We Celebrate Love' */
+            --button-bg: #d9a0b1;
+            --button-hover-bg: #c08c9b;
+        }
+
+        /* --- Animations --- */
+        @keyframes subtle-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', 'Arial', sans-serif; /* Modern font for overall clean look */
+            background-color: var(--light-grey-bg);
+            color: var(--dark-grey-text);
+            text-align: center;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease;
+        }
+        
+        /* --- HEADER SECTION --- */
+        .anniversary-header {
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--light-grey-bg);
+            position: relative;
+            padding: 0 20px;
+            overflow: hidden; /* Important for torn paper effect */
+        }
+
+        /* Torn Paper Effect - Top */
+        .anniversary-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; /* Height of the torn edge effect */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path fill="%23d0d0d0" d="M0,40 C100,0 200,80 300,40 S400,0 500,40 S600,80 700,40 S800,0 900,40 S1000,80 1000,40 L1000,100 L0,100 Z" /></svg>') repeat-x top;
+            background-size: 100% 100%;
+            opacity: 0.8;
+            transform: translateY(-50%) rotate(180deg);
+        }
+        /* Torn Paper Effect - Bottom */
+        .anniversary-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; /* Height of the torn edge effect */
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path fill="%23d0d0d0" d="M0,40 C100,0 200,80 300,40 S400,0 500,40 S600,80 700,40 S800,0 900,40 S1000,80 1000,40 L1000,100 L0,100 Z" /></svg>') repeat-x bottom;
+            background-size: 100% 100%;
+            opacity: 0.8;
+            transform: translateY(50%);
+        }
+
+        .header-content {
+            position: relative; /* To be above torn paper effects */
+            z-index: 2;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for text area */
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header-content h1 {
+            font-family: 'Times New Roman', serif; /* Elegant serif for main title */
+            font-weight: normal; /* Less bold for classic feel */
+            font-size: 5.5em; /* Adjusted for overall look */
+            color: var(--dark-grey-text);
+            text-shadow: none;
+            margin-bottom: 5px; /* Closer to the date */
+            letter-spacing: 2px;
+        }
+        
+        .header-content .date-text {
+            font-family: 'Times New Roman', serif; /* Matching font */
+            font-size: 2em; /* Smaller than title, but prominent */
+            color: var(--mid-grey-text);
+            font-style: italic; /* Back to italic for classic feel */
+            font-weight: normal;
+            margin-bottom: 40px;
+        }
+
+        .header-content .sub-heading {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-weight: 300;
+            font-size: 1.6em;
+            color: var(--mid-grey-text);
+            margin-bottom: 60px; /* Space above button */
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .header-content .sub-heading::before,
+        .header-content .sub-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 1px;
+            background-color: var(--soft-pink);
+        }
+        .header-content .sub-heading::before { left: calc(50% - 100px); }
+        .header-content .sub-heading::after { right: calc(50% - 100px); }
+
+
+        /* --- Main Gallery Reveal Button (Wanna See Something?) --- */
+        #revealButton {
+            background-color: var(--button-bg);
+            color: var(--secondary-white);
+            border: none;
+            padding: 18px 45px; /* Wider button */
+            font-size: 1.3em;
+            font-weight: normal; /* Less bold */
+            border-radius: 5px; /* Sharper corners for modern look */
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+        }
+
+        #revealButton:hover {
+            transform: translateY(-2px); /* Subtle lift */
+            background-color: var(--button-hover-bg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* --- The Hidden Gallery Container --- */
+        #gallery {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 1s ease-in-out, max-height 1.5s ease-in-out;
+            background-color: var(--secondary-white); /* Gallery background */
+        }
+
+        /* State for when the gallery is OPEN */
+        #gallery.is-open {
+            opacity: 1;
+            max-height: 8000px; /* Ensure enough height for all sections */
+        }
+
+        /* --- Individual Photo Section - Alternating Layout & Scroll Animation --- */
+        .photo-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 120px;
+            padding: 20px 0;
+            opacity: 0; 
+            transform: translateY(100px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+        }
+
+        /* Cinematic scroll animation when section is in viewport */
+        .photo-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Layout Logic (Alternating sides) --- */
+        /* Default: Photo on the RIGHT (Flex direction: row) */
+        .photo-section {
+            flex-direction: row;
+        }
+
+        /* Even sections (2, 4, 6): Photo on the LEFT (Reverse direction) */
+        .photo-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* --- Image Container (Clickable and Initially Hidden) --- */
+        .image-container {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            max-width: 50%;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        
+        /* Clickable Overlay to Indicate Hidden Content */
+        .image-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8); /* White overlay to mimic original */
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-size: 1.8em;
+            color: var(--dark-grey-text);
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            letter-spacing: 1px;
+        }
+
+        .image-container.is-revealed .image-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .image-overlay:hover {
+            opacity: 0.6;
+        }
+
+        /* --- Image and Text Content (Pop-up Animation) --- */
+        .photo-content {
+            flex: 1;
+            padding: 20px 40px;
+            text-align: left;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            max-width: 50%;
+        }
+        
+        .photo-content.is-revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 0 0 5px var(--secondary-white), 0 10px 20px rgba(0, 0, 0, 0.15); /* White border and shadow */
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+        }
+
+        .image-container.is-revealed img {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .text-overlay h3 {
+            font-family: 'Times New Roman', serif; /* Matching header font */
+            font-size: 2.5em; /* Larger heading for impact */
+            color: var(--dark-grey-text);
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.03);
+            font-weight: normal;
+        }
+        .text-overlay p {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            line-height: 1.6;
+            font-size: 1.1em;
+            color: var(--mid-grey-text);
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="backgroundAudio" loop>
+        <source src="ordinary.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="anniversary-header">
+        <div class="header-content">
+            <h1>A GLIMPSE FROM FIRST TO LAST</h1>
+            <p class="date-text">7.10.2024-7.10.2025</p>
+            <p class="sub-heading">Hello Madam Nishi.</p>
+            
+            <button id="revealButton">Wanna See Something?</button>
+        </div>
+    </div>
+
+    <div id="gallery">
+
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>Remember this madam?😳</h3>
+                    <p>Our first pic madam 🤭. Mone ase oidin tor shoril o valo chilo na ami o onk nervous chilam 😆 bar bar hat ghamte chilo. Remember the miss? Tui ki voy ta paisili 😆 whatever last porjonto shob thik e hoisilo tui Kotha o thik moto bolte chili na akdom chup chap chili almost.</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic1.jpg" alt="Photo 1 Description">
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>Mentors</h3>
+                    <p> See how happy you are. Always aivhabe hasar try korbi ok? Muk kalo kore rakle toke valo lage na akdom so always smile like this pic and be happy 😁</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic2.jpg" alt="Photo 2 Description">
+            </div>
+        </div>
+        
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>😚😚</h3>
+                    <p>Madam I'll always click your pics like this good or bad 😁 and I'll take lots of pic 😁😁 alabuuuuuuuuuuuuu 💋</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic3.jpg" alt="Photo 3 Description">
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>Shikho🤭 </h3>
+                    <p>Aita Mone ache madam? Shikho te, oidin ami vhabte chilam jodi tor state akbar kotha bolte pari. Ar tui e phn kore bolsos koi asos 🤭 ar amra pic o peye gechi 🤭🤭</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic4.jpg" alt="Photo 4 Description">
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>My crying bebustar</h3>
+                    <p>Bae hoito onk kosto pas amr onk kisu te ba kotha te shob kisur jonno sorry ami. Iccha kore hurt korte chai na ...ar asha kori aikhane je vhabe kanna kortesos ai vhabe kanna kora jeno tor ar na lage, hoito onk kisu ghure tor mon er moddhe onk problem e thakos tui 😓 but mone rakis you're only allowed to cry like this in our wedding ok? You can cry all you want in front of me and also you can share whatever you want ok madam? 😠 Kokhono nijer moddhe kisu rakis na ok?.</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic5.jpg" alt="Photo 5 Description">
+            </div>
+        </div>
+
+        <div class="photo-section">
+            <div class="photo-content">
+                <div class="text-overlay">
+                    <h3>7.9.2025</h3>
+                    <p>Last pic ami shob guli moment er akta pic dite chacchilam but parte chilam na 😔. So ato tuku e...
+
+Jst Mone rakis ami always tor shate asi tor valo kharap shob kisu te kokhono nijeke aka mone koris na ok? Kokhono kharap lagle amr share koris ar next pic abr o ai khane tulbo inshallah 🤭
+koto kisu change hoye gese tui amr dairy hoye gesos pura.most trusted person. Pura din e ki hoy ken jani toke shob bolte iccha kore.</p>
+                </div>
+            </div>
+            <div class="image-container">
+                <div class="image-overlay">Click to Reveal</div>
+                <img src="pic6.jpg" alt="Photo 6 Description">
+            </div>
+        </div>
+        
+
+    </div>
+
+    <script>
+        const revealButton = document.getElementById('revealButton');
+        const gallery = document.getElementById('gallery');
+        const audio = document.getElementById('backgroundAudio');
+        const photoSections = document.querySelectorAll('.photo-section');
+        const imageContainers = document.querySelectorAll('.image-container');
+        
+        // --- 1. Main Gallery Reveal and Music Play ---
+        revealButton.addEventListener('click', () => {
+            gallery.classList.toggle('is-open');
+
+            if (gallery.classList.contains('is-open')) {
+                revealButton.textContent = "Scroll Down to Uncover the Memories!";
+                // Smooth scroll to the gallery area when it opens
+                setTimeout(() => {
+                    gallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500); 
+                
+                audio.play().catch(e => console.log("Audio auto-play blocked."));
+                
+                // Once opened, observe sections for cinematic scroll animation
+                photoSections.forEach(section => observer.observe(section));
+
+            } else {
+                revealButton.textContent = "Wanna See Something?";
+                // When closing, unobserve and hide individual content
+                photoSections.forEach(section => {
+                    observer.unobserve(section);
+                    section.querySelector('.image-container').classList.remove('is-revealed');
+                    section.querySelector('.photo-content').classList.remove('is-revealed');
+                });
+            }
+        });
+
+        // --- 2. Intersection Observer for Cinematic Fade-in Scroll (for each photo section itself) ---
+        const observerOptions = {
+            root: null, // observe against the viewport
+            rootMargin: '0px',
+            threshold: 0.2 // Trigger when 20% of the item is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // observer.unobserve(entry.target); // Uncomment this line if you want the animation to run only ONCE
+                } 
+            });
+        }, observerOptions);
+
+        // --- 3. Click-to-Reveal on Image ---
+        imageContainers.forEach((container) => {
+            container.addEventListener('click', () => {
+                const isRevealed = container.classList.toggle('is-revealed');
+                
+                // Find the corresponding text content next to the image container
+                const photoSection = container.closest('.photo-section');
+                const photoContent = photoSection.querySelector('.photo-content');
+                
+                if (isRevealed) {
+                    photoContent.classList.add('is-revealed');
+                } else {
+                    photoContent.classList.remove('is-revealed');
+                }
+            });
+        });
+
+        // Initial setup for observation
+        document.addEventListener('DOMContentLoaded', () => {
+            if (gallery.classList.contains('is-open')) {
+                photoSections.forEach(section => observer.observe(section));
+            }
+        });
+
+    </script>
+</body>
+</html>
